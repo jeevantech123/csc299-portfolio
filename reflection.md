@@ -33,21 +33,37 @@ The commit 4a3ae07 "Round 1 END" is actually the end of round 2. It adds handoff
 This function is from shooter-game, located in game.js
 
 \ =========================
+
 \ function handleShotHits(state) {
+
 \   const enemiesLeft = [...state.enemies];
+
 \   const shotsLeft = [];
+
 \   for (const shot of state.shots) {
+
 \     const hitIndex = enemiesLeft.findIndex((enemy) => rectsOverlap(shot, enemy));
+
 \     if (hitIndex === -1) {
+
 \       shotsLeft.push(shot);
+
 \     } else {
+
 \       enemiesLeft.splice(hitIndex, 1);
+
 \       state.score += POINTS_PER_ENEMY;
+
 \     }
+
 \   }
+
 \   state.shots = shotsLeft;
+
 \   state.enemies = enemiesLeft;
+
 \ }
+
 \ =========================
 
 What I think it does:
