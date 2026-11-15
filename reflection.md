@@ -12,18 +12,19 @@ The decision records 0001 and 0002 explain their two choices well (diagonal spee
 
 # 3. Name one test that caught a real problem, or one test the assistant wrote that checked nothing useful. Quote it.
 
-This is a test that checked nothing useful:
-/ ==========================
-/ test("R1: a purple triangle falls at half the speed of a red square", () => {
+Yhis is a test that checked nothing useful:
+ ==========================
+ test("R1: a purple triangle falls at half the speed of a red square", () => {
 
-/  assert.equal(game.TRIANGLE_FALL_SPEED, game.ENEMY_SPEED / 2);
+ assert.equal(game.TRIANGLE_FALL_SPEED, game.ENEMY_SPEED / 2);
 
-/  assert.equal(game.TRIANGLE_FALL_SPEED, 50);
+ assert.equal(game.TRIANGLE_FALL_SPEED, 50);
 
-/  assert.ok(game.TRIANGLE_SIDE_SPEED > 0, "it has a sideways speed");
+ assert.ok(game.TRIANGLE_SIDE_SPEED > 0, "it has a sideways speed");
 
-/ });
-/ ==========================
+ });
+
+==========================
 game.js defines 'TRIANGLE_FALL_SPEED = ENEMY_SPEED / 2', so the first assertion restates the definition. I changed moveTriangle so that triangles fall at a different speed but this test still passed. Only a different test 'moves down at half speed and sideways at the same time' failed. The round 6 test 'the shotgun cooldown is 10 seconds and a blast has 5 pellets' has the same shape. The test checks two constants and nothing about behavior itself.
 
 # 4. Choose one commit you would now rite differently, and say how.
@@ -36,39 +37,37 @@ The commit 4a3ae07 "Round 1 END" is actually the end of round 2. It adds handoff
 
 This function is from shooter-game, located in game.js
 
-\ =========================
+ =========================
 
-\ function handleShotHits(state) {
+ function handleShotHits(state) {
 
-\   const enemiesLeft = [...state.enemies];
+   const enemiesLeft = [...state.enemies];
 
-\   const shotsLeft = [];
+   const shotsLeft = [];
 
-\   for (const shot of state.shots) {
+   for (const shot of state.shots) {
 
-\     const hitIndex = enemiesLeft.findIndex((enemy) => rectsOverlap(shot, enemy));
+     const hitIndex = enemiesLeft.findIndex((enemy) => rectsOverlap(shot, enemy));
 
-\     if (hitIndex === -1) {
+     if (hitIndex === -1) {
 
-\       shotsLeft.push(shot);
+       shotsLeft.push(shot);
 
-\     } else {
+     } else {
 
-\       enemiesLeft.splice(hitIndex, 1);
+       enemiesLeft.splice(hitIndex, 1);
 
-\       state.score += POINTS_PER_ENEMY;
+       state.score += POINTS_PER_ENEMY;
 
-\     }
+    }
 
-\   }
+   }
 
-\   state.shots = shotsLeft;
+  state.shots = shotsLeft;
+   state.enemies = enemiesLeft;
+ }
 
-\   state.enemies = enemiesLeft;
-
-\ }
-
-\ =========================
+ =========================
 
 What I think it does:
 It copies state.enemies and puts it into enemiesLeft while starting shotsLeft. This means that one shot can only kill one enemy and then it is consumed. If the shot does not hit anything then it stays in shotsLeft. I think it uses rectsOverlap to see if any shot hit an enemy.
