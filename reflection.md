@@ -13,13 +13,17 @@ The decision records 0001 and 0002 explain their two choices well (diagonal spee
 # 3. Name one test that caught a real problem, or one test the assistant wrote that checked nothing useful. Quote it.
 
 This is a test that checked nothing useful:
-==========================
-test("R1: a purple triangle falls at half the speed of a red square", () => {
-  assert.equal(game.TRIANGLE_FALL_SPEED, game.ENEMY_SPEED / 2);
-  assert.equal(game.TRIANGLE_FALL_SPEED, 50);
-  assert.ok(game.TRIANGLE_SIDE_SPEED > 0, "it has a sideways speed");
-});
-==========================
+/ ==========================
+/ test("R1: a purple triangle falls at half the speed of a red square", () => {
+
+/  assert.equal(game.TRIANGLE_FALL_SPEED, game.ENEMY_SPEED / 2);
+
+/  assert.equal(game.TRIANGLE_FALL_SPEED, 50);
+
+/  assert.ok(game.TRIANGLE_SIDE_SPEED > 0, "it has a sideways speed");
+
+/ });
+/ ==========================
 game.js defines 'TRIANGLE_FALL_SPEED = ENEMY_SPEED / 2', so the first assertion restates the definition. I changed moveTriangle so that triangles fall at a different speed but this test still passed. Only a different test 'moves down at half speed and sideways at the same time' failed. The round 6 test 'the shotgun cooldown is 10 seconds and a blast has 5 pellets' has the same shape. The test checks two constants and nothing about behavior itself.
 
 # 4. Choose one commit you would now rite differently, and say how.
